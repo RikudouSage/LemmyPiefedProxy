@@ -23,6 +23,11 @@ func MarshalToQueryString(in any) (result string, err error) {
 	queryParts := make([]string, 0, len(normalized))
 	for key, value := range normalized {
 		part := fmt.Sprintf("%s=", key)
+
+		if value == nil {
+			continue
+		}
+
 		if _, ok := value.(bool); ok {
 			part += fmt.Sprintf("%t", value)
 		} else if _, ok := value.(string); ok {

@@ -19,6 +19,7 @@ func init() {
 	AppRouter.AddRoute(newRoute("/user/unread_count", router.HttpMethodGet, userController.GetUnreadCount))
 	AppRouter.AddRoute(newRoute("/site", router.HttpMethodGet, siteController.Site))
 	AppRouter.AddRoute(newRoute("/post/list", router.HttpMethodGet, postController.GetPosts))
+	AppRouter.AddRoute(newRoute("/post", router.HttpMethodGet, postController.GetPost))
 
 	// impossible to implement, error pages only
 	AppRouter.AddRoute(newRoute("/user/register", router.HttpMethodPost, userController.Register))

@@ -61,3 +61,28 @@ func (receiver *PostController) GetPosts(request *http.Request) (*http.Response,
 		},
 	}, nil
 }
+
+func (receiver *PostController) GetPost(request *http.Request) (*http.Response, error) {
+	reqDto, err := helper.ParseRequestQuery[lemmy.GetPostRequest](request)
+	if err != nil {
+		return helper.ConvertValidationErrorsToResponse(err), nil
+	}
+
+	resp, err := receiver.piefed.GetPost(&piefed.GetPostRequest{
+		CommentId: reqDto.CommentId,
+		Id:        reqDto.Id,
+	}, request.Headers)
+	if err != nil {
+		return nil, err
+	}
+
+	return &http.Response{
+		StatusCode: goHttp.StatusOK,
+		Body: &lemmyResponse.GetPostResponse{
+			CommunityView: converter.ConvertCommunityView(resp.CommunityView),
+			CrossPosts:    helper.MapSlice(resp.CrossPosts, converter.ConvertPostView),
+			Moderators:    helper.MapSlice(resp.Moderators, converter.ConvertCommunityModeratorView),
+			PostView:      converter.ConvertPostView(resp.PostView),
+		},
+	}, nil
+}
