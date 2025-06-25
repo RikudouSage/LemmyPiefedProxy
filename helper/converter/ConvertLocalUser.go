@@ -15,7 +15,7 @@ func ConvertLocalUser(in piefed.LocalUser, person piefed.Person) lemmy.LocalUser
 		CollapseBotComments:      false,
 		DefaultListingType:       ConvertListingType(in.DefaultListingType),
 		DefaultSortType:          ConvertSortType(in.DefaultSortType),
-		Email:                    "",
+		Email:                    nil,
 		EmailVerified:            true,
 		EnableAnimatedImages:     true,
 		EnableKeyboardNavigation: true,

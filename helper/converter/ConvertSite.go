@@ -6,11 +6,15 @@ import (
 	"LemmyPiefedApi/dto/model/piefed"
 )
 
-func ConvertSite(in piefed.Site, actor ap.Actor) lemmy.Site {
-	return lemmy.Site{
+func ConvertSite(in *piefed.Site, actor ap.Actor) *lemmy.Site {
+	if in == nil {
+		return nil
+	}
+
+	return &lemmy.Site{
 		ActorId:         in.ActorId,
-		Banner:          "",
-		ContentWarning:  "",
+		Banner:          nil,
+		ContentWarning:  nil,
 		Description:     in.Description,
 		Icon:            in.Icon,
 		Id:              0, // todo
@@ -25,12 +29,12 @@ func ConvertSite(in piefed.Site, actor ap.Actor) lemmy.Site {
 	}
 }
 
-func ConvertSiteToView(in piefed.Site, actor ap.Actor) lemmy.SiteView {
+func ConvertSiteToView(in *piefed.Site, actor ap.Actor) lemmy.SiteView {
 	return lemmy.SiteView{
 		LocalSite: lemmy.LocalSite{
 			ActorNameMaxLength:         20,
 			ApplicationEmailAdmins:     false,
-			ApplicationQuestion:        "",
+			ApplicationQuestion:        nil,
 			CaptchaDifficulty:          "",
 			CaptchaEnabled:             false,
 			CommunityCreationAdminOnly: false,
@@ -38,26 +42,26 @@ func ConvertSiteToView(in piefed.Site, actor ap.Actor) lemmy.SiteView {
 			DefaultPostListingType:     lemmy.ListingTypeSubscribed,
 			DefaultSortType:            lemmy.SortTypeHot,
 			DefaultTheme:               "browser",
-			EnableDownvotes:            in.EnableDownvotes,
+			EnableDownvotes:            *in.EnableDownvotes,
 			EnableNsfw:                 true,
 			FederationEnabled:          true,
 			FederationSignedFetch:      false,
 			HideModlogModNames:         false,
 			Id:                         0, // todo
-			LegalInformation:           "",
+			LegalInformation:           nil,
 			PrivateInstance:            false,
 			Published:                  actor.Published,
-			RegistrationMode:           ConvertRegistrationMode(in.RegistrationMode),
+			RegistrationMode:           ConvertRegistrationMode(*in.RegistrationMode),
 			ReportsEmailAdmin:          false,
 			ReportsEmailVerification:   false,
 			SiteId:                     0, // todo
 			SiteSetup:                  true,
-			SlurFilterRegex:            "",
+			SlurFilterRegex:            nil,
 			Updated:                    actor.Updated,
 		},
 		LocalSiteRateLimit: lemmy.LocalSiteRateLimit{
 			Published: actor.Published,
 		},
-		Site: ConvertSite(in, actor),
+		Site: *ConvertSite(in, actor),
 	}
 }

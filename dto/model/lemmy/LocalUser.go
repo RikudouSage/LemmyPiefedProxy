@@ -8,7 +8,7 @@ type LocalUser struct {
 	CollapseBotComments      bool            `json:"collapse_bot_comments" validate:"required"`
 	DefaultListingType       ListingType     `json:"default_listing_type" validate:"required"`
 	DefaultSortType          SortType        `json:"default_sort_type" validate:"required"`
-	Email                    string          `json:"email,omitempty" validate:"email"`
+	Email                    *string         `json:"email,omitempty" validate:"email"`
 	EmailVerified            bool            `json:"email_verified" validate:"required"`
 	EnableAnimatedImages     bool            `json:"enable_animated_images" validate:"required"`
 	EnableKeyboardNavigation bool            `json:"enable_keyboard_navigation" validate:"required"`

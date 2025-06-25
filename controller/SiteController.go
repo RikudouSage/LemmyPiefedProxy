@@ -59,7 +59,7 @@ func (receiver *SiteController) Site(request *http.Request) (*http.Response, err
 				return in.Id
 			}),
 			MyUser:   converter.ConvertMyUserInfo(resp.MyUser, apActor),
-			SiteView: converter.ConvertSiteToView(resp.Site, apActor),
+			SiteView: converter.ConvertSiteToView(&resp.Site, apActor),
 			Taglines: []lemmyModel.Tagline{},
 			Version:  version,
 		},

@@ -2,11 +2,11 @@ package lemmy
 
 type Community struct {
 	ActorId                 string              `json:"actor_id" validate:"required"`
-	Banner                  string              `json:"banner,omitempty"`
+	Banner                  *string             `json:"banner,omitempty"`
 	Deleted                 bool                `json:"deleted" validate:"required"`
-	Description             string              `json:"description,omitempty"`
+	Description             *string             `json:"description,omitempty"`
 	Hidden                  bool                `json:"hidden" validate:"required"`
-	Icon                    string              `json:"icon,omitempty"`
+	Icon                    *string             `json:"icon,omitempty"`
 	Id                      uint                `json:"id" validate:"required"`
 	InstanceId              uint                `json:"instance_id" validate:"required"`
 	Local                   bool                `json:"local" validate:"required"`
@@ -16,6 +16,6 @@ type Community struct {
 	Published               string              `json:"published" validate:"required"`
 	Removed                 bool                `json:"removed" validate:"required"`
 	Title                   string              `json:"title" validate:"required"`
-	Updated                 string              `json:"updated,omitempty"`
+	Updated                 *string             `json:"updated,omitempty"`
 	Visibility              CommunityVisibility `json:"visibility" validate:"required"`
 }

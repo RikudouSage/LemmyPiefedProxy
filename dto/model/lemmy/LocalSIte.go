@@ -3,7 +3,7 @@ package lemmy
 type LocalSite struct {
 	ActorNameMaxLength         uint             `json:"actor_name_max_length" validate:"required"`
 	ApplicationEmailAdmins     bool             `json:"application_email_admins" validate:"required"`
-	ApplicationQuestion        string           `json:"application_question,omitempty"`
+	ApplicationQuestion        *string          `json:"application_question,omitempty"`
 	CaptchaDifficulty          string           `json:"captcha_difficulty" validate:"required"`
 	CaptchaEnabled             bool             `json:"captcha_enabled" validate:"required"`
 	CommunityCreationAdminOnly bool             `json:"community_creation_admin_only" validate:"required"`
@@ -17,7 +17,7 @@ type LocalSite struct {
 	FederationSignedFetch      bool             `json:"federation_signed_fetch" validate:"required"`
 	HideModlogModNames         bool             `json:"hide_modlog_mod_names" validate:"required"`
 	Id                         uint             `json:"id" validate:"required"`
-	LegalInformation           string           `json:"legal_information,omitempty"`
+	LegalInformation           *string          `json:"legal_information,omitempty"`
 	PrivateInstance            bool             `json:"private_instance" validate:"required"`
 	Published                  string           `json:"published" validate:"required"`
 	RegistrationMode           RegistrationMode `json:"registration_mode" validate:"required"`
@@ -25,6 +25,6 @@ type LocalSite struct {
 	ReportsEmailVerification   bool             `json:"reports_email_verification" validate:"required"`
 	SiteId                     uint             `json:"site_id" validate:"required"`
 	SiteSetup                  bool             `json:"site_setup" validate:"required"`
-	SlurFilterRegex            string           `json:"slur_filter_regex,omitempty"`
-	Updated                    string           `json:"updated,omitempty"`
+	SlurFilterRegex            *string          `json:"slur_filter_regex,omitempty"`
+	Updated                    *string          `json:"updated,omitempty"`
 }

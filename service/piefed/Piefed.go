@@ -32,13 +32,22 @@ func (receiver *Piefed) sendRequest(
 	headers http.Headers,
 ) (*goHttp.Response, error) {
 	var body io.Reader
+	queryString := ""
 	if request != nil {
-		body = helper.MarshalToReader(request)
+		if method == router.HttpMethodGet {
+			marshalled, err := helper.MarshalToQueryString(request)
+			if err != nil {
+				return nil, err
+			}
+			queryString = "?" + marshalled
+		} else {
+			body = helper.MarshalToReader(request)
+		}
 	}
 
 	req, err := goHttp.NewRequest(
 		string(method),
-		receiver.url()+path,
+		receiver.url()+path+queryString,
 		body,
 	)
 	if err != nil {
