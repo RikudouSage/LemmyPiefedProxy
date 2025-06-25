@@ -37,3 +37,12 @@ func NotImplementedResponse() *Response {
 		},
 	}
 }
+
+func NotImplementedFeature(description string) *Response {
+	return &Response{
+		StatusCode: http.StatusNotImplemented,
+		Body: &response.InternalError{
+			Error: description,
+		},
+	}
+}

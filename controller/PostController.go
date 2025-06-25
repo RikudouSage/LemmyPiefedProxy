@@ -29,6 +29,12 @@ func (receiver *PostController) GetPosts(request *http.Request) (*http.Response,
 		return helper.ConvertValidationErrorsToResponse(err), nil
 	}
 
+	if reqDto.PageCursor != nil {
+		return http.NotImplementedFeature(
+			"Cursor based navigation is not available",
+		), nil
+	}
+
 	resp, err := receiver.piefed.GetPosts(&piefed.GetPostsRequest{
 		Type: helper.SafeDereference(reqDto.Type, func(in lemmyModel.ListingType) *piefedModel.ListingType {
 			return helper.ToPointer(converter.ReverseConvertListingType(in))
