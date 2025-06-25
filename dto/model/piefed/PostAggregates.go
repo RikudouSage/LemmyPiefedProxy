@@ -1,11 +1,11 @@
 package piefed
 
 type PostAggregates struct {
-	PostId            uint   `json:"post_id" required:"true"`
-	Comments          uint   `json:"comments" required:"true"`
-	Score             int    `json:"score" required:"true"`
-	Upvotes           uint   `json:"upvotes" required:"true"`
-	Downvotes         uint   `json:"downvotes" required:"true"`
-	Published         string `json:"published" required:"true"`
-	NewestCommentTime string `json:"newest_comment_time" required:"true"`
+	PostId            uint   `json:"post_id" validate:"required"`
+	Comments          uint   `json:"comments" validate:"required"`
+	Score             int    `json:"score" validate:"required"`
+	Upvotes           uint   `json:"upvotes" validate:"required"`
+	Downvotes         uint   `json:"downvotes" validate:"required"`
+	Published         string `json:"published" validate:"required"`
+	NewestCommentTime string `json:"newest_comment_time" validate:"required"`
 }

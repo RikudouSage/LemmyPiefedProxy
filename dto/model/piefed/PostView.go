@@ -1,20 +1,20 @@
 package piefed
 
 type PostView struct {
-	Post                       Post           `json:"post" required:"true"`
-	Creator                    Person         `json:"creator" required:"true"`
-	Community                  Community      `json:"community" required:"true"`
-	CreatorBannedFromCommunity bool           `json:"creator_banned_from_community" required:"true"`
-	BannedFromCommunity        bool           `json:"banned_from_community" required:"true"`
-	CreatorIsModerator         bool           `json:"creator_is_moderator" required:"true"`
-	CreatorIsAdmin             bool           `json:"creator_is_admin" required:"true"`
-	Counts                     PostAggregates `json:"counts" required:"true"`
-	Subscribed                 SubscribedType `json:"subscribed" required:"true"`
-	Saved                      bool           `json:"saved" required:"true"`
+	Post                       Post           `json:"post" validate:"required"`
+	Creator                    Person         `json:"creator" validate:"required"`
+	Community                  Community      `json:"community" validate:"required"`
+	CreatorBannedFromCommunity bool           `json:"creator_banned_from_community" validate:"required"`
+	BannedFromCommunity        bool           `json:"banned_from_community" validate:"required"`
+	CreatorIsModerator         bool           `json:"creator_is_moderator" validate:"required"`
+	CreatorIsAdmin             bool           `json:"creator_is_admin" validate:"required"`
+	Counts                     PostAggregates `json:"counts" validate:"required"`
+	Subscribed                 SubscribedType `json:"subscribed" validate:"required"`
+	Saved                      bool           `json:"saved" validate:"required"`
 	ActivityAlert              *bool          `json:"activity_alert,omitempty"`
-	Read                       bool           `json:"read" required:"true"`
-	Hidden                     bool           `json:"hidden" required:"true"`
+	Read                       bool           `json:"read" validate:"required"`
+	Hidden                     bool           `json:"hidden" validate:"required"`
 	CreatorBlocked             *bool          `json:"creator_blocked,omitempty"`
 	MyVote                     *int           `json:"my_vote,omitempty"`
-	UnreadComments             uint           `json:"unread_comments" required:"true"`
+	UnreadComments             uint           `json:"unread_comments" validate:"required"`
 }

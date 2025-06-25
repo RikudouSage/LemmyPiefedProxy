@@ -1,15 +1,56 @@
 package piefed
 
 import (
+	piefedResponse "LemmyPiefedApi/dto/response/piefed"
 	"LemmyPiefedApi/helper"
 	"LemmyPiefedApi/http"
 	"LemmyPiefedApi/router"
+	"encoding/json"
 	"fmt"
 	"io"
 	goHttp "net/http"
 )
 
 const applicationJson = "application/json"
+
+func defaultHandler[TResponse any](
+	piefed *Piefed,
+	urlPath string,
+	httpMethod router.HttpMethod,
+	request any,
+	headers http.Headers,
+) (*TResponse, error) {
+	resp, err := piefed.sendRequest(
+		urlPath,
+		httpMethod,
+		request,
+		headers,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode != goHttp.StatusOK {
+		var errorResponse *piefedResponse.ErrorResponse
+		_ = json.Unmarshal(body, &errorResponse)
+		errorResponse.StatusCode = resp.StatusCode
+
+		return nil, errorResponse
+	}
+
+	var response TResponse
+	if err := json.Unmarshal(body, &response); err != nil {
+		return nil, err
+	}
+
+	return &response, nil
+}
 
 type Piefed struct {
 	instance string
