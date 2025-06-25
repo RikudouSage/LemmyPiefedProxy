@@ -50,3 +50,19 @@ func (receiver *UserController) Register(request *http.Request) (*http.Response,
 
 	return http.NotImplementedResponse(), nil
 }
+
+func (receiver *UserController) GetUnreadCount(request *http.Request) (*http.Response, error) {
+	resp, err := receiver.piefed.GetUnreadCount(request.Headers)
+	if err != nil {
+		return nil, err
+	}
+
+	return &http.Response{
+		StatusCode: goHttp.StatusOK,
+		Body: &lemmyResponse.GetUnreadCountResponse{
+			Mentions:        resp.Mentions,
+			PrivateMessages: resp.PrivateMessages,
+			Replies:         resp.Replies,
+		},
+	}, nil
+}

@@ -42,3 +42,36 @@ func (receiver *Piefed) Login(request *piefedRequest.LoginRequest, headers appHt
 
 	return response, nil
 }
+
+func (receiver *Piefed) GetUnreadCount(headers appHttp.Headers) (*piefedResponse.GetUnreadCountResponse, error) {
+	resp, err := receiver.sendRequest(
+		"/user/unread_count",
+		router.HttpMethodGet,
+		nil,
+		headers,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		var errorResponse *piefedResponse.ErrorResponse
+		_ = json.Unmarshal(body, &errorResponse)
+		errorResponse.StatusCode = resp.StatusCode
+
+		return nil, errorResponse
+	}
+
+	var response *piefedResponse.GetUnreadCountResponse
+	if err := json.Unmarshal(body, &response); err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
