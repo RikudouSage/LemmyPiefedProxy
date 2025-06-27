@@ -46,3 +46,9 @@ func NotImplementedFeature(description string) *Response {
 		},
 	}
 }
+
+func NoContent() *Response {
+	return &Response{
+		StatusCode: http.StatusNoContent,
+	}
+}

@@ -5,11 +5,15 @@ import (
 	"LemmyPiefedApi/service"
 	piefedService "LemmyPiefedApi/service/piefed"
 	"os"
+	"regexp"
 	"strconv"
 )
 
 var AppHttpPort = 8080
 var AppRouter *router.Router
+var CertificateFile string
+var CertificateKey string
+var CorsRegex *regexp.Regexp
 
 var simulateLemmy bool
 var piefed *piefedService.Piefed
@@ -40,4 +44,14 @@ func init() {
 	activityPub = service.NewActivityPub()
 
 	AppRouter = router.NewRouter()
+
+	if certFile, exists := os.LookupEnv("CERTIFICATE_FILE"); exists {
+		CertificateFile = certFile
+	}
+	if certKey, exists := os.LookupEnv("CERTIFICATE_KEY"); exists {
+		CertificateKey = certKey
+	}
+	if regexStr, exists := os.LookupEnv("CORS_REGEX"); exists {
+		CorsRegex = regexp.MustCompile(regexStr)
+	}
 }

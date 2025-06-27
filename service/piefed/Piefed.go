@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	goHttp "net/http"
+	"strings"
 )
 
 const applicationJson = "application/json"
@@ -95,11 +96,14 @@ func (receiver *Piefed) sendRequest(
 		return nil, err
 	}
 
-	req.Header = helper.MapMap(headers, func(value, key string) []string {
+	req.Header = helper.MapMap(helper.MapFilter(headers, func(value, key string) bool {
+		return strings.ToLower(key) != "content-length"
+	}), func(value, key string) []string {
 		return []string{value}
 	})
-	req.Header.Set("Content-Type", applicationJson)
-	req.Header.Del("Content-Length")
+	if body != nil {
+		req.Header.Set("Content-Type", applicationJson)
+	}
 
 	return goHttp.DefaultClient.Do(req)
 }

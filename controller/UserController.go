@@ -66,3 +66,20 @@ func (receiver *UserController) GetUnreadCount(request *http.Request) (*http.Res
 		},
 	}, nil
 }
+
+func (receiver *UserController) GetReportCount(request *http.Request) (*http.Response, error) {
+	reqDto, err := helper.ParseRequestQuery[lemmy.GetReportCountRequest](request)
+	if err != nil {
+		return helper.ConvertValidationErrorsToResponse(err), nil
+	}
+
+	return &http.Response{
+		StatusCode: goHttp.StatusOK,
+		Body: &lemmyResponse.GetReportCountResponse{
+			CommentReports:        0,
+			CommunityId:           reqDto.CommunityId,
+			PostReports:           0,
+			PrivateMessageReports: nil,
+		},
+	}, nil
+}

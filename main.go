@@ -21,6 +21,16 @@ func main() {
 	signal.Notify(gracefulShutdown, syscall.SIGTERM, syscall.SIGINT)
 
 	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
+		if config.CorsRegex != nil && config.CorsRegex.MatchString(request.Header.Get("Origin")) {
+			writer.Header().Add("Access-Control-Allow-Origin", request.Header.Get("Origin"))
+			writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, User-Agent, Authorization")
+		}
+
+		if request.Method == "OPTIONS" {
+			appHttp.WriteHttpResponse(appHttp.NoContent(), writer)
+			return
+		}
+
 		body, err := io.ReadAll(request.Body)
 		if err != nil {
 			appHttp.WriteHttpResponse(appHttp.InternalProxyError(), writer)
@@ -86,7 +96,13 @@ func main() {
 	})
 
 	go func() {
-		err := http.ListenAndServe(fmt.Sprintf(":%d", config.AppHttpPort), nil)
+		var err error
+		serveAddr := fmt.Sprintf(":%d", config.AppHttpPort)
+		if config.CertificateFile != "" && config.CertificateKey != "" {
+			err = http.ListenAndServeTLS(serveAddr, config.CertificateFile, config.CertificateKey, nil)
+		} else {
+			err = http.ListenAndServe(serveAddr, nil)
+		}
 		if err != nil {
 			panic(err)
 		}
