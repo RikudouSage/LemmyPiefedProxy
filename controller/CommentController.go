@@ -55,3 +55,25 @@ func (receiver *CommentController) GetComments(request *http.Request) (*http.Res
 		},
 	}, nil
 }
+
+func (receiver *CommentController) GetComment(request *http.Request) (*http.Response, error) {
+	reqDto, err := helper.ParseRequestQuery[lemmy.GetCommentRequest](request)
+	if err != nil {
+		return helper.ConvertValidationErrorsToResponse(err), nil
+	}
+
+	resp, err := receiver.piefed.GetComment(&piefed.GetCommentRequest{
+		Id: reqDto.Id,
+	}, request.Headers)
+	if err != nil {
+		return nil, err
+	}
+
+	return &http.Response{
+		StatusCode: goHttp.StatusOK,
+		Body: &lemmyResponse.GetCommentResponse{
+			CommentView:  converter.ConvertCommentView(resp.CommentView),
+			RecipientIds: []uint{},
+		},
+	}, nil
+}

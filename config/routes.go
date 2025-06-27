@@ -22,6 +22,7 @@ func init() {
 	AppRouter.AddRoute(newRoute("/post/list", router.HttpMethodGet, postController.GetPosts))
 	AppRouter.AddRoute(newRoute("/post", router.HttpMethodGet, postController.GetPost))
 	AppRouter.AddRoute(newRoute("/comment/list", router.HttpMethodGet, commentController.GetComments))
+	AppRouter.AddRoute(newRoute("/comment", router.HttpMethodGet, commentController.GetComment))
 
 	// impossible to implement, error pages only
 	AppRouter.AddRoute(newRoute("/user/register", router.HttpMethodPost, userController.Register))
