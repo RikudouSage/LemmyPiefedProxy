@@ -10,7 +10,7 @@ import (
 func (receiver *Piefed) GetComments(request *piefed.GetCommentsRequest, headers http.Headers) (*piefedResponse.GetCommentsResponse, error) {
 	return defaultHandler[piefedResponse.GetCommentsResponse](
 		receiver,
-		"/post",
+		"/comment/list",
 		router.HttpMethodGet,
 		request,
 		headers,
