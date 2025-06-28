@@ -77,3 +77,28 @@ func (receiver *CommentController) GetComment(request *http.Request) (*http.Resp
 		},
 	}, nil
 }
+
+func (receiver *CommentController) CreateComment(request *http.Request) (*http.Response, error) {
+	reqDto, err := helper.ParseRequest[lemmy.CreateCommentRequest](request)
+	if err != nil {
+		return helper.ConvertValidationErrorsToResponse(err), nil
+	}
+
+	resp, err := receiver.piefed.CreateComment(&piefed.CreateCommentRequest{
+		Body:       reqDto.Content,
+		PostId:     reqDto.PostId,
+		ParentId:   reqDto.ParentId,
+		LanguageId: reqDto.LanguageId,
+	}, request.Headers)
+	if err != nil {
+		return nil, err
+	}
+
+	return &http.Response{
+		StatusCode: goHttp.StatusOK,
+		Body: &lemmyResponse.CreateCommentResponse{
+			CommentView:  converter.ConvertCommentView(resp.CommentView),
+			RecipientIds: []uint{},
+		},
+	}, nil
+}

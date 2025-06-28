@@ -8,7 +8,7 @@ import (
 func ConvertComment(in piefed.Comment) lemmy.Comment {
 	return lemmy.Comment{
 		ActivityPubId: in.ActivityPubId,
-		Content:       in.Content,
+		Content:       in.Body,
 		CreatorId:     in.CreatorId,
 		Deleted:       in.Deleted,
 		Distinguished: in.Distinguished,

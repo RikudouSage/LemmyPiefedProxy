@@ -26,3 +26,13 @@ func (receiver *Piefed) GetComment(request *piefed.GetCommentRequest, headers ht
 		headers,
 	)
 }
+
+func (receiver *Piefed) CreateComment(request *piefed.CreateCommentRequest, headers http.Headers) (*piefedResponse.CreateCommentResponse, error) {
+	return defaultHandler[piefedResponse.CreateCommentResponse](
+		receiver,
+		"/comment",
+		router.HttpMethodPost,
+		request,
+		headers,
+	)
+}
