@@ -27,4 +27,5 @@ func init() {
 	// impossible to implement, error pages only
 	AppRouter.AddRoute(newRoute("/user/register", router.HttpMethodPost, userController.Register))
 	AppRouter.AddRoute(newRoute("/user/report_count", router.HttpMethodGet, userController.GetReportCount))
+	AppRouter.AddRoute(newRoute("/post/mark_as_read", router.HttpMethodPost, postController.MarkPostAsRead))
 }

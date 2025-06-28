@@ -33,7 +33,7 @@ func NotImplementedResponse() *Response {
 	return &Response{
 		StatusCode: http.StatusNotImplemented,
 		Body: &response.InternalError{
-			Error: "this method has not been implemented yet in the proxy",
+			Error: "this method has not been implemented yet in the proxy (or piefed)",
 		},
 	}
 }
